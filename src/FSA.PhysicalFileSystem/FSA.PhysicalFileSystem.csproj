@@ -7,8 +7,8 @@
     <ProjectGuid>{E4229B1B-B397-4A09-B770-A80BCE7CE5ED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PhysicalFileSystem</RootNamespace>
-    <AssemblyName>PhysicalFileSystem</AssemblyName>
+    <RootNamespace>FSA.PhysicalFileSystem</RootNamespace>
+    <AssemblyName>FSA.PhysicalFileSystem</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>211e66e4</NuGetPackageImportStamp>

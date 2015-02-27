@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+
 namespace FSA
 {
 	public interface IDirectory
@@ -16,7 +16,7 @@ namespace FSA
 
 		void Move(string destination);
 
-		IDirectory Parent 
+		IDirectory Parent
 		{ get; }
 
 		IFile GetFile(string path);

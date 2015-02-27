@@ -1,11 +1,9 @@
-﻿using FSA;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace PhysicalFileSystem
+namespace FSA.PhysicalFileSystem
 {
 	public class PhysicalDirectory : IDirectory
 	{
@@ -26,13 +24,16 @@ namespace PhysicalFileSystem
 			Name = FullPath.Split(new char[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries).Last();
 		}
 
-		public string FullPath { get; private set; }
+		public string FullPath
+		{ get; private set; }
 
-		public string Name { get; private set; }
+		public string Name
+		{ get; private set; }
 
 		public bool Exists
 		{
-			get { return Directory.Exists(FullPath); }
+			get
+			{ return Directory.Exists(FullPath); }
 		}
 
 		public void Create()

@@ -1,8 +1,6 @@
-﻿using FSA;
-using System;
-using System.IO;
+﻿using System.IO;
 
-namespace PhysicalFileSystem
+namespace FSA.PhysicalFileSystem
 {
 	public class PhysicalFileSystem : IFileSystem
 	{
@@ -28,7 +26,8 @@ namespace PhysicalFileSystem
 
 		public IDirectory Root
 		{
-			get { return _rootDirectory; }
+			get
+			{ return _rootDirectory; }
 		}
 
 		public IFile GetFile(string path)

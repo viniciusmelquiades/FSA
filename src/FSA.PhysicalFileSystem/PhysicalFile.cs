@@ -1,12 +1,6 @@
-﻿using FSA;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
-namespace PhysicalFileSystem
+namespace FSA.PhysicalFileSystem
 {
 	public class PhysicalFile : IFile
 	{
@@ -24,15 +18,19 @@ namespace PhysicalFileSystem
 			Extension = Path.GetExtension(FullName);
 		}
 
-		public string FullName { get; private set; }
+		public string FullName
+		{ get; private set; }
 
-		public string Name { get; private set; }
+		public string Name
+		{ get; private set; }
 
-		public string Extension { get; private set; }
+		public string Extension
+		{ get; private set; }
 
 		public bool Exists
 		{
-			get { return File.Exists(FullName); }
+			get
+			{ return File.Exists(FullName); }
 		}
 
 		public IDirectory Directory

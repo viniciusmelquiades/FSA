@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSA", "src\FSA\FSA.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSA.PhysicalFileSystem", "src\FSA.PhysicalFileSystem\FSA.PhysicalFileSystem.csproj", "{E4229B1B-B397-4A09-B770-A80BCE7CE5ED}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9AE9FAF3-F4D0-4303-B10E-6C967ABC2416}"
+	ProjectSection(SolutionItems) = preProject
+		pack.bat = pack.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
