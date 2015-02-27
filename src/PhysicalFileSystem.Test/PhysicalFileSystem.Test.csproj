@@ -59,10 +59,6 @@
       <Project>{bfc6aaae-8a06-40db-9cb3-ed13e845fb95}</Project>
       <Name>FSA</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PhysicalFileSystem\PhysicalFileSystem.csproj">
-      <Project>{e4229b1b-b397-4a09-b770-a80bce7ce5ed}</Project>
-      <Name>PhysicalFileSystem</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
