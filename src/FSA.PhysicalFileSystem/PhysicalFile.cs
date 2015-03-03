@@ -58,28 +58,36 @@ namespace FSA.PhysicalFileSystem
 					throw new DestinationExistsException();
 			}
 
+			var destination = new PhysicalFile(_fs, newFilePath);
+
+			destination.Directory.Create();
+
 			File.Move(FullName, physicalDestination);
 
-			return new PhysicalFile(_fs, newFilePath);
+			return destination;
 		}
 
 		public IFile Copy(string path, bool replace = false)
 		{
 			var newFilePath = PathUtil.Resolve(_path, path);
 
-			var physicalDestination = _fs.GetFullPath(newFilePath);
+			var physicalDestinationPath = _fs.GetFullPath(newFilePath);
 
-			if(File.Exists(physicalDestination))
+			if(File.Exists(physicalDestinationPath))
 			{
 				if(replace)
-					File.Delete(physicalDestination);
+					File.Delete(physicalDestinationPath);
 				else
 					throw new DestinationExistsException();
 			}
 
-			File.Copy(FullName, physicalDestination);
+			var destination = new PhysicalFile(_fs, newFilePath);
 
-			return new PhysicalFile(_fs, newFilePath);
+			destination.Directory.Create();
+
+			File.Copy(FullName, physicalDestinationPath);
+
+			return destination;
 		}
 
 		public void Delete()
@@ -95,6 +103,8 @@ namespace FSA.PhysicalFileSystem
 
 		public Stream OpenWrite(bool append = true)
 		{
+			Directory.Create();
+
 			if(append == false)
 				Delete();
 
