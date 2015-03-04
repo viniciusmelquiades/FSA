@@ -5,93 +5,69 @@ using System.Linq;
 
 namespace FSA.PhysicalFileSystem
 {
-	public class PhysicalDirectory : IDirectory
+	public class PhysicalDirectory : BaseDirectory
 	{
 		private readonly PhysicalFileSystem _fs;
-		private PhysicalDirectory _parent;
-		private string _path;
 
 		internal PhysicalDirectory(PhysicalFileSystem fs)
 			: this(fs, "/")
 		{ }
 
 		protected internal PhysicalDirectory(PhysicalFileSystem fs, string path)
+			: base(fs, path)
 		{
 			_fs = fs;
-			_path = path;
 
 			FullPath = fs.GetFullPath(path);
-			Name = FullPath.Split(new char[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries).Last();
 		}
 
-		public string FullPath
-		{ get; private set; }
-
-		public string Name
-		{ get; private set; }
-
-		public bool Exists
+		public string FullPath { get; private set; }
+		
+		protected override void CreateDirectory()
 		{
-			get
-			{ return Directory.Exists(FullPath); }
+			Directory.CreateDirectory(FullPath);
 		}
 
-		public void Create()
+		protected override void DeleteDirectory()
 		{
-			if(!Exists)
-			{
-				Directory.CreateDirectory(FullPath);
-			}
+			Directory.Delete(FullPath);
 		}
 
-		public void Delete()
+		protected override void MoveDirectory(IDirectory targetDirectory)
 		{
-			if(Exists)
-			{
-				Directory.Delete(FullPath, true);
-			}
+			var physicalDestinationPath = _fs.GetFullPath(targetDirectory.Path);
+
+			Directory.Move(FullPath, physicalDestinationPath);
 		}
 
-		public void Move(string destination)
+		protected override IDirectory GetParent()
 		{
-			Directory.Move(FullPath, _fs.GetFullPath(_path, destination));
+			return new PhysicalDirectory(_fs, System.IO.Path.GetDirectoryName(Path));
 		}
 
-		public IDirectory Parent
+		protected override IEnumerable<IFile> GetFilesInternal()
 		{
-			get
-			{
-				if(_parent == null)
-					_parent = new PhysicalDirectory(_fs, Path.GetDirectoryName(_path));
-
-				return _parent;
-			}
+			return Directory.EnumerateFiles(FullPath).Select(file => new PhysicalFile(_fs, PathUtil.Resolve(Path, file)));
 		}
 
-		public IFile GetFile(string path)
+		protected override IEnumerable<IDirectory> GetDirectoriesInternal()
 		{
-			return new PhysicalFile(_fs, PathUtil.Resolve(_path, path));
+			return Directory.EnumerateDirectories(FullPath).Select(directory => new PhysicalDirectory(_fs, PathUtil.Resolve(Path, directory)));
 		}
 
-		public IDirectory GetDirectory(string path)
+		public override bool Exists
 		{
-			return new PhysicalDirectory(_fs, PathUtil.Resolve(_path, path));
+			get { return Directory.Exists(FullPath); }
 		}
 
-		public IEnumerable<IFile> GetFiles()
+		public override IFile GetFile(string path)
 		{
-			if(!Exists)
-				return Enumerable.Empty<IFile>();
-
-			return Directory.EnumerateFiles(FullPath).Select(file => new PhysicalFile(_fs, PathUtil.Resolve(_path, file)));
+			return new PhysicalFile(_fs, PathUtil.Resolve(path, path));
 		}
 
-		public IEnumerable<IDirectory> GetDirectories()
+		public override IDirectory GetDirectory(string path)
 		{
-			if(!Exists)
-				return Enumerable.Empty<IDirectory>();
-
-			return Directory.EnumerateDirectories(FullPath).Select(directory => new PhysicalDirectory(_fs, PathUtil.Resolve(_path, directory)));
+			return new PhysicalDirectory(_fs, PathUtil.Resolve(Path, path));
 		}
 	}
 }

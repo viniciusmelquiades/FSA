@@ -2,113 +2,58 @@
 
 namespace FSA.PhysicalFileSystem
 {
-	public class PhysicalFile : IFile
+	public class PhysicalFile : BaseFile
 	{
 		public readonly PhysicalFileSystem _fs;
-		public readonly string _path;
-		private PhysicalDirectory _directory;
 
 		protected internal PhysicalFile(PhysicalFileSystem fs, string path)
+			: base(fs, path)
 		{
 			_fs = fs;
-			_path = path;
 
-			FullName = fs.GetFullPath(path);
-			Name = Path.GetFileName(FullName);
-			Extension = Path.GetExtension(FullName);
+			FullPath = fs.GetFullPath(path);
 		}
 
-		public string FullName
+		public string FullPath
 		{ get; private set; }
 
-		public string Name
-		{ get; private set; }
-
-		public string Extension
-		{ get; private set; }
-
-		public bool Exists
+		public override bool Exists
 		{
-			get
-			{ return File.Exists(FullName); }
+			get { return File.Exists(FullPath); }
 		}
 
-		public IDirectory Directory
+		public override Stream OpenRead()
 		{
-			get
-			{
-				if(_directory == null)
-					_directory = new PhysicalDirectory(_fs, Path.GetDirectoryName(_path));
-
-				return _directory;
-			}
+			return File.OpenRead(FullPath);
 		}
 
-		public IFile Move(string path, bool replace = false)
+		protected override IDirectory GetDirectory()
 		{
-			var newFilePath = PathUtil.Resolve(_path, path);
-
-			var physicalDestination = _fs.GetFullPath(newFilePath);
-
-			if(File.Exists(physicalDestination))
-			{
-				if(replace)
-					File.Delete(physicalDestination);
-				else
-					throw new DestinationExistsException();
-			}
-
-			var destination = new PhysicalFile(_fs, newFilePath);
-
-			destination.Directory.Create();
-
-			File.Move(FullName, physicalDestination);
-
-			return destination;
+			return new PhysicalDirectory(_fs, System.IO.Path.GetDirectoryName(Path));
 		}
 
-		public IFile Copy(string path, bool replace = false)
+		protected override void MoveFile(IFile newFile)
 		{
-			var newFilePath = PathUtil.Resolve(_path, path);
+			var physicalDestinationPath = _fs.GetFullPath(newFile.Path);
 
-			var physicalDestinationPath = _fs.GetFullPath(newFilePath);
-
-			if(File.Exists(physicalDestinationPath))
-			{
-				if(replace)
-					File.Delete(physicalDestinationPath);
-				else
-					throw new DestinationExistsException();
-			}
-
-			var destination = new PhysicalFile(_fs, newFilePath);
-
-			destination.Directory.Create();
-
-			File.Copy(FullName, physicalDestinationPath);
-
-			return destination;
+			File.Move(FullPath, physicalDestinationPath);
 		}
 
-		public void Delete()
+		protected override void CopyFile(IFile newFile)
 		{
-			if(File.Exists(FullName))
-				File.Delete(FullName);
+			var physicalDestinationPath = _fs.GetFullPath(newFile.Path);
+
+			File.Copy(FullPath, physicalDestinationPath);
 		}
 
-		public Stream OpenRead()
+		protected override void DeleteFile()
 		{
-			return File.OpenRead(FullName);
+			File.Delete(FullPath);
 		}
 
-		public Stream OpenWrite(bool append = true)
+		protected override Stream GetWriteStream()
 		{
-			Directory.Create();
-
-			if(append == false)
-				Delete();
-
-			return File.OpenWrite(FullName);
+			return File.OpenWrite(FullPath);
 		}
 	}
 }

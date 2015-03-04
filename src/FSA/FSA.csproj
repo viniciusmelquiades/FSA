@@ -39,6 +39,8 @@
     <None Include="FSA.nuspec" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseDirectory.cs" />
+    <Compile Include="BaseFile.cs" />
     <Compile Include="DestinationExistsException.cs" />
     <Compile Include="IDirectory.cs" />
     <Compile Include="IFile.cs" />

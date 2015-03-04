@@ -4,20 +4,19 @@ namespace FSA
 {
 	public interface IDirectory
 	{
-		string Name
-		{ get; }
+		string Path { get; }
 
-		bool Exists
-		{ get; }
+		string Name { get; }
+
+		bool Exists { get; }
+
+		IDirectory Parent { get; }
 
 		void Create();
 
 		void Delete();
 
-		void Move(string destination);
-
-		IDirectory Parent
-		{ get; }
+		IDirectory Move(string destination);
 
 		IFile GetFile(string path);
 

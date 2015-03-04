@@ -4,14 +4,17 @@ namespace FSA
 {
 	public interface IFile
 	{
-		string Name
-		{ get; }
+		string Path { get; }
 
-		bool Exists
-		{ get; }
+		string Name { get; }
 
-		IDirectory Directory
-		{ get; }
+		string NameWithoutExtension { get; }
+
+		string Extension { get; }
+
+		bool Exists { get; }
+
+		IDirectory Directory { get; }
 
 		IFile Move(string path, bool replace = false);
 
