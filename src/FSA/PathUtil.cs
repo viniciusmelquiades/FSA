@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace FSA
@@ -15,20 +16,20 @@ namespace FSA
 		/// </param>
 		/// <returns>The resolved path</returns>
 		/// <exception cref="PathRootViolationException" />
-		public static string Resolve(char separator, params string[] paths)
+		public static string ResolveWithSeparator(string separator, params string[] paths)
 		{
 			var results = new System.Collections.Generic.LinkedList<string>();
 
 			foreach(var path in paths.Where(x => x != null))
 			{
-				if(path.StartsWith(("/")))
+				if(path.StartsWith("/") || path.StartsWith("\\"))
 					results.Clear();
 
 				foreach(var pathPart in path.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries))
 				{
 					if(pathPart == "..")
 					{
-						if(results.Count <= 1)
+						if(results.Count == 0)
 							throw new PathRootViolationException();
 
 						results.RemoveLast();
@@ -38,7 +39,7 @@ namespace FSA
 				}
 			}
 
-			return string.Join("/", results);
+			return separator + string.Join(separator, results);
 		}
 
 		/// <summary>
@@ -50,7 +51,7 @@ namespace FSA
 		/// <exception cref="PathRootViolationException" />
 		public static string Resolve(params string[] paths)
 		{
-			return Resolve('/', paths);
+			return ResolveWithSeparator("/", paths);
 		}
 	}
 }

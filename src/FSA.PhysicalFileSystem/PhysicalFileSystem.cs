@@ -41,13 +41,13 @@ namespace FSA.PhysicalFileSystem
 		}
 
 		/// <summary>
-		/// Resolves the paths, using <see cref="PathUtil.Resolve(char, string[])"/>, and combines it, with <see cref="Path.Combine(string, string)"/> to generate the physical path of a file.
+		/// Resolves the paths, using <see cref="PathUtil.ResolveWithSeparator(char, string[])"/>, and combines it, with <see cref="Path.Combine(string, string)"/> to generate the physical path of a file.
 		/// </summary>
 		/// <param name="paths"></param>
 		/// <returns>The path on the disk for the "virtual path"</returns>
 		public virtual string GetFullPath(params string[] paths)
 		{
-			var fsPath = PathUtil.Resolve(Path.DirectorySeparatorChar, paths);
+			var fsPath = PathUtil.ResolveWithSeparator(Path.DirectorySeparatorChar.ToString(), paths);
 
 			return Path.Combine(_root.FullName, fsPath);
 		}
