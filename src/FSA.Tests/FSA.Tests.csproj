@@ -55,7 +55,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\FSA\FSA.csproj">
+    <ProjectReference Include="..\FSA\FSA.csproj">
       <Project>{bfc6aaae-8a06-40db-9cb3-ed13e845fb95}</Project>
       <Name>FSA</Name>
     </ProjectReference>
