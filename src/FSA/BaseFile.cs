@@ -96,14 +96,14 @@ namespace FSA
 		}
 
 		//Abstract methods
-		protected abstract IDirectory GetDirectory();
-
-		protected abstract void MoveFile(IFile newFile);
-
-		protected abstract void CopyFile(IFile newFile);
-
-		protected abstract void DeleteFile();
-
-		protected abstract System.IO.Stream GetWriteStream();
+		protected internal abstract IDirectory GetDirectory();
+				   
+		protected internal abstract void MoveFile(IFile newFile);
+				   
+		protected internal abstract void CopyFile(IFile newFile);
+				   
+		protected internal abstract void DeleteFile();
+				   
+		protected internal abstract System.IO.Stream GetWriteStream();
 	}
 }

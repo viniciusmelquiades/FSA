@@ -14,7 +14,7 @@ namespace FSA
 		protected internal BaseDirectory(IFileSystem fs, string path)
 		{
 			_fs = fs;
-			Name = path.Split(new char[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries).Last();
+			Name = path.Split(new char[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
 		}
 
 		public string Path { get; private set; }
@@ -82,16 +82,16 @@ namespace FSA
 		}
 
 		//Protected abstract methods
-		protected abstract void CreateDirectory();
+		protected internal abstract void CreateDirectory();
 
-		protected abstract void DeleteDirectory();
+		protected internal abstract void DeleteDirectory();
 
-		protected abstract void MoveDirectory(IDirectory targetDirectory);
+		protected internal abstract void MoveDirectory(IDirectory targetDirectory);
 
-		protected abstract IDirectory GetParent();
+		protected internal abstract IDirectory GetParent();
 
-		protected abstract IEnumerable<IFile> GetFilesInternal();
+		protected internal abstract IEnumerable<IFile> GetFilesInternal();
 
-		protected abstract IEnumerable<IDirectory> GetDirectoriesInternal();
+		protected internal abstract IEnumerable<IDirectory> GetDirectoriesInternal();
 	}
 }
