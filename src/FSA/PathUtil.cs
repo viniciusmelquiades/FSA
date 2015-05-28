@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace FSA
 {
+	[Obsolete("Use one of the IPathResolver. The DefaultPathResolver will probably be ok for EVERYTHING. This class will fail to compile in the future before being removed.")]
 	public static class PathUtil
 	{
 		/// <summary>
@@ -15,7 +16,7 @@ namespace FSA
 		///		The many paths to use in the resolution. If a path starts with '/', everything before all other paths before it will be ignored.
 		/// </param>
 		/// <returns>The resolved path</returns>
-		/// <exception cref="PathRootViolationException" />
+		/// <exception cref="RootPathViolationException" />
 		public static string ResolveWithSeparator(string separator, params string[] paths)
 		{
 			var results = new System.Collections.Generic.LinkedList<string>();
@@ -30,7 +31,7 @@ namespace FSA
 					if(pathPart == "..")
 					{
 						if(results.Count == 0)
-							throw new PathRootViolationException();
+							throw new RootPathViolationException();
 
 						results.RemoveLast();
 					}
@@ -48,7 +49,7 @@ namespace FSA
 		/// </summary>
 		/// <param name="paths">The many paths to use in the resolution. If a path starts with '/', everything before all other paths before it will be ignored.</param>
 		/// <returns>The resolved path</returns>
-		/// <exception cref="PathRootViolationException" />
+		/// <exception cref="RootPathViolationException" />
 		public static string Resolve(params string[] paths)
 		{
 			return ResolveWithSeparator("/", paths);

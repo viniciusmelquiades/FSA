@@ -57,6 +57,7 @@
     <Compile Include="BaseFileTests\DeleteTests.cs" />
     <Compile Include="BaseFileTests\MoveTests.cs" />
     <Compile Include="BaseFileTests\WriteTests.cs" />
+    <Compile Include="DefaultPathResolverTests.cs" />
     <Compile Include="PathUtilTests\ResolveTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestUtils.cs" />

@@ -4,6 +4,7 @@ using NUnit.Framework;
 namespace FSA.Tests.PathUtilTests
 {
 	[TestFixture]
+	[System.Obsolete]
 	public class ResolveTests
 	{
 		[Test]
@@ -48,7 +49,7 @@ namespace FSA.Tests.PathUtilTests
 		[Test]
 		public void TryingToResolvePathAboveRoot_ShouldThrowException()
 		{
-			Assert.Throws(typeof(PathRootViolationException), () => PathUtil.ResolveWithSeparator("/", "/path1", "../.."));
+			Assert.Throws(typeof(RootPathViolationException), () => PathUtil.ResolveWithSeparator("/", "/path1", "../.."));
 		}
 
 		[Test]

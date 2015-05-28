@@ -41,13 +41,16 @@
   <ItemGroup>
     <Compile Include="BaseDirectory.cs" />
     <Compile Include="BaseFile.cs" />
+    <Compile Include="DefaultPathResolver.cs" />
     <Compile Include="DestinationExistsException.cs" />
     <Compile Include="IDirectory.cs" />
     <Compile Include="IFile.cs" />
     <Compile Include="IFileSystem.cs" />
-    <Compile Include="PathRootViolationException.cs" />
+    <Compile Include="IPathResolver.cs" />
+    <Compile Include="RootPathViolationException.cs" />
     <Compile Include="PathUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RootPathViolationBehavior.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
