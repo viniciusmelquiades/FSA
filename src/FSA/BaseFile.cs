@@ -81,7 +81,7 @@ namespace FSA
 		//Private methods
 		private IFile PrepareToMoveOrCopyFile(string path, bool replace)
 		{
-			var newFile = _fs.GetFile(PathUtil.Resolve(Path, path));
+			var newFile = _fs.GetFile(Path, path);
 
 			if(newFile.Exists)
 			{

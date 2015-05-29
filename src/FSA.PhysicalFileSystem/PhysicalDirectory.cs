@@ -22,7 +22,7 @@ namespace FSA.PhysicalFileSystem
 		}
 
 		public string FullPath { get; private set; }
-		
+
 		protected override void CreateDirectory()
 		{
 			Directory.CreateDirectory(FullPath);
@@ -47,12 +47,12 @@ namespace FSA.PhysicalFileSystem
 
 		protected override IEnumerable<IFile> GetFilesInternal()
 		{
-			return Directory.EnumerateFiles(FullPath).Select(file => new PhysicalFile(_fs, PathUtil.Resolve(Path, file)));
+			return Directory.EnumerateFiles(FullPath).Select(file => _fs.GetFile(Path, file));
 		}
 
 		protected override IEnumerable<IDirectory> GetDirectoriesInternal()
 		{
-			return Directory.EnumerateDirectories(FullPath).Select(directory => new PhysicalDirectory(_fs, PathUtil.Resolve(Path, directory)));
+			return Directory.EnumerateDirectories(FullPath).Select(directory => _fs.GetDirectory(Path, directory));
 		}
 
 		public override bool Exists
@@ -62,12 +62,12 @@ namespace FSA.PhysicalFileSystem
 
 		public override IFile GetFile(string path)
 		{
-			return new PhysicalFile(_fs, PathUtil.Resolve(path, path));
+			return _fs.GetFile(Path, path);
 		}
 
 		public override IDirectory GetDirectory(string path)
 		{
-			return new PhysicalDirectory(_fs, PathUtil.Resolve(Path, path));
+			return _fs.GetDirectory(Path, path);
 		}
 	}
 }

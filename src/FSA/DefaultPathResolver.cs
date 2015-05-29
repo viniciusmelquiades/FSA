@@ -23,9 +23,6 @@ namespace FSA
 
 			foreach(var path in paths.Where(x => x != null))
 			{
-				//if(path.StartsWith("/") || path.StartsWith("\\"))
-				//	results.Clear();
-
 				foreach(var pathPart in path.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries))
 				{
 					if(pathPart == "..")

@@ -5,8 +5,11 @@
 		IDirectory Root
 		{ get; }
 
-		IFile GetFile(string path);
+		IFile GetFile(params string[] pathParts);
 
-		IDirectory GetDirectory(string path);
+		IDirectory GetDirectory(params string[] pathParts);
+
+		IPathResolver PathResolver 
+		{ get; }
 	}
 }

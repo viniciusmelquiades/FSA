@@ -8,6 +8,6 @@ namespace FSA
 {
 	public interface IPathResolver
 	{
-		string Resolve(IEnumerable<string> resolve);
+		string Resolve(IEnumerable<string> paths);
 	}
 }

@@ -41,7 +41,7 @@ namespace FSA
 
 		public IDirectory Move(string destination)
 		{
-			var targetDirectory = _fs.GetDirectory(PathUtil.Resolve(Path, destination));
+			var targetDirectory = _fs.GetDirectory(Path, destination);
 
 			targetDirectory.Parent.Create();
 

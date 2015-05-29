@@ -7,7 +7,7 @@ namespace FSA.PhysicalFileSystem
 		internal readonly DirectoryInfo _root;
 		private readonly PhysicalDirectory _rootDirectory;
 
-		public PhysicalFileSystem(DirectoryInfo root, bool create = true)
+		public PhysicalFileSystem(DirectoryInfo root, bool create = true, IPathResolver pathResolver = null)
 		{
 			_root = root;
 
@@ -18,10 +18,15 @@ namespace FSA.PhysicalFileSystem
 					throw new DirectoryNotFoundException();
 
 			_rootDirectory = new PhysicalDirectory(this);
+
+			if(pathResolver == null)
+			{
+				pathResolver = new DefaultPathResolver(Path.DirectorySeparatorChar.ToString());
+			}
 		}
 
-		public PhysicalFileSystem(string root, bool create = true) :
-			this(new DirectoryInfo(root), create)
+		public PhysicalFileSystem(string root, bool create = true, IPathResolver pathResolver = null) :
+			this(new DirectoryInfo(root), create, pathResolver)
 		{ }
 
 		public IDirectory Root
@@ -30,24 +35,27 @@ namespace FSA.PhysicalFileSystem
 			{ return _rootDirectory; }
 		}
 
-		public IFile GetFile(string path)
+		public IFile GetFile(params string[] pathParts)
 		{
-			return _rootDirectory.GetFile(path);
+			return new PhysicalFile(this, PathResolver.Resolve(pathParts));
 		}
 
-		public IDirectory GetDirectory(string path)
+		public IDirectory GetDirectory(params string[] pathParts)
 		{
-			return _rootDirectory.GetDirectory(path);
+			return new PhysicalDirectory(this, PathResolver.Resolve(pathParts));
 		}
+
+		public IPathResolver PathResolver
+		{ get; private set; }
 
 		/// <summary>
-		/// Resolves the paths, using <see cref="PathUtil.ResolveWithSeparator(char, string[])"/>, and combines it, with <see cref="Path.Combine(string, string)"/> to generate the physical path of a file.
+		/// Resolves the path to the physical path. The same used by the OS.
 		/// </summary>
 		/// <param name="paths"></param>
 		/// <returns>The path on the disk for the "virtual path"</returns>
 		public virtual string GetFullPath(params string[] paths)
 		{
-			var fsPath = PathUtil.ResolveWithSeparator(Path.DirectorySeparatorChar.ToString(), paths);
+			var fsPath = PathResolver.Resolve(paths);
 
 			return Path.Combine(_root.FullName, fsPath);
 		}
